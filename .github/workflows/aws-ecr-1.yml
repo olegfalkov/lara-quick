@@ -83,7 +83,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: laravel-mysql-test
+        ECR_REPOSITORY: deployment-demo-registry
         IMAGE_TAG: ${{steps.version.outputs.prop}}.${{ github.run_number }}.${{ github.run_id }}
       run: |
         # Build a docker container and
