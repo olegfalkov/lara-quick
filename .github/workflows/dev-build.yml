@@ -27,7 +27,7 @@ on:
   push:
     branches: [ develop ]
 
-name: CI/CD Build
+name: CI/CD Dev Build
 
 jobs:
   build:
