@@ -28,7 +28,7 @@ on:
     branches:
       - release/*
 
-name: Build and push release image to Amazon ECS
+name: Release build
 
 jobs:
   build:
