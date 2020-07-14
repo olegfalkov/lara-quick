@@ -59,7 +59,7 @@ jobs:
     
     # Use branch name for whatever purpose
     - name: show version
-      run: echo ${steps.version.outputs.branch}.${{ github.run_number }}    
+      run: echo ${{steps.version.outputs.branch}}.${{ github.run_number }}    
     
     - name: Login to Amazon ECR
       id: login-ecr
@@ -93,7 +93,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: deployment-demo-registry
-        IMAGE_TAG:  ${steps.version.outputs.branch}.${{ github.run_number }}
+        IMAGE_TAG:  ${{steps.version.outputs.branch}}.${{ github.run_number }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
