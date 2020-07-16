@@ -137,7 +137,7 @@ jobs:
       with:
         args: --acl public-read
       env:
-        FILE: appspec-poc-template.yml
+        FILE: app-spec-template.yml
         AWS_REGION: 'us-east-2'
         S3_BUCKET: "appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml"
         S3_KEY: "${{ secrets.S3_KEY }}"
