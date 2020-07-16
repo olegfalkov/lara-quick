@@ -130,7 +130,7 @@ jobs:
       with:
         find: "## ARN ##"
         replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
-        include: "appspec-poc-template.yml"
+        include: "app-spec-template.yml"
         
     - name: ls
       run: ls
