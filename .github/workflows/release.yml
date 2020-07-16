@@ -100,15 +100,38 @@ jobs:
         # be deployed to ECS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"      
 
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: task-definition.json
-#        container-name: laravel-container
-#        image: ${{ steps.build-image.outputs.image }}
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: release-task-definition.json
+        container-name: web-app-container
+        image: ${{ steps.build-image.outputs.image }}
+        
+        
+    - name: Update task ARN
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "## task ARN ##"
+        replace: "${{ steps.task-def.outputs.task-definition }}"
+        include: "appspec-poc-template.yml"
+        
+    - name: Upload file to bucket
+      uses: zdurham/s3-upload-github-action@master
+      with:
+        args: --acl public-read
+      env:
+        FILE: ./appspec-poc-template.yml
+        AWS_REGION: 'us-east-2'
+        S3_BUCKET: "appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml"
+        S3_KEY: "${{ secrets.S3_KEY }}"
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+
+        
 #
 #    - name: Deploy Amazon ECS task definition
 #      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
