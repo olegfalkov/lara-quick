@@ -31,7 +31,7 @@
         }
     ],
     "family": "poc-demo-task",
-    "executionRoleArn": "arn:aws:iam::465337219909:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::885193784904:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
     "volumes": [],
