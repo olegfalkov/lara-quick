@@ -119,8 +119,8 @@ jobs:
         cluster: poc-deployment-demo
         wait-for-service-stability: false
         codedeploy-appspec: app-spec-template.yml
-        codedeploy-application: AppECS-poc-deployment-demo-blue-green
-        codedeploy-deployment-group:  DgpECS-poc-deployment-demo-blue-green
+        # codedeploy-application: AppECS-poc-deployment-demo-blue-green
+        # codedeploy-deployment-group:  DgpECS-poc-deployment-demo-blue-green
         
     - name: Update task ARN
       uses: shitiomatic/str-replace@master
