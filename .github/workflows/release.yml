@@ -133,7 +133,7 @@ jobs:
       run: ls
         
     - name: Upload file to bucket
-      run: aws s3 cp app-spec-template.yml appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml
+      run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml
 #      uses: zdurham/s3-upload-github-action@master
 #      with:
 #        args: --acl public-read
