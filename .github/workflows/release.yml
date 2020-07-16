@@ -133,16 +133,17 @@ jobs:
       run: ls
         
     - name: Upload file to bucket
-      uses: zdurham/s3-upload-github-action@master
-      with:
-        args: --acl public-read
-      env:
-        FILE: app-spec-template.yml
-        AWS_REGION: 'us-east-2'
-        S3_BUCKET: "poc-demo-deploy"
-        S3_KEY: "appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml"
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: aws s3 cp app-spec-template.yml appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml
+#      uses: zdurham/s3-upload-github-action@master
+#      with:
+#        args: --acl public-read
+#      env:
+#        FILE: app-spec-template.yml
+#        AWS_REGION: 'us-east-2'
+#        S3_BUCKET: "poc-demo-deploy"
+#        S3_KEY: "appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml"
+#        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
 
         
