@@ -115,8 +115,8 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: blue-green
-        cluster: poc-deployment-demo
+#        service: blue-green
+#        cluster: poc-deployment-demo
         wait-for-service-stability: false
         codedeploy-appspec: app-spec-template.yml
         # codedeploy-application: AppECS-poc-deployment-demo-blue-green
