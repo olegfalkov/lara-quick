@@ -110,20 +110,31 @@ jobs:
         container-name: web-app-container
         image: ${{ steps.build-image.outputs.image }}
         
+    - name: Deploy Amazon ECS task definition
+      id: task-deploy
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: blue-green
+        cluster: poc-deployment-demo
+        wait-for-service-stability: false
         
     - name: Update task ARN
       uses: shitiomatic/str-replace@master
       with:
         find: "## task ARN ##"
-        replace: "${{ steps.task-def.outputs.task-definition }}"
+        replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
         include: "appspec-poc-template.yml"
+        
+    - name: ls
+      run: ls
         
     - name: Upload file to bucket
       uses: zdurham/s3-upload-github-action@master
       with:
         args: --acl public-read
       env:
-        FILE: ./appspec-poc-template.yml
+        FILE: appspec-poc-template.yml
         AWS_REGION: 'us-east-2'
         S3_BUCKET: "appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml"
         S3_KEY: "${{ secrets.S3_KEY }}"
