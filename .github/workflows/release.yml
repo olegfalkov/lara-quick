@@ -125,7 +125,7 @@ jobs:
     - name: Update task ARN
       uses: shitiomatic/str-replace@master
       with:
-        find: "## task ARN ##"
+        find: "poc-demo-task:1"
         replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
         include: "appspec-poc-template.yml"
         
