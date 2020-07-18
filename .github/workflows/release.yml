@@ -47,6 +47,7 @@ jobs:
         aws-region: us-east-2
 
     - name: get version
+      id: version
       run: |
             BRANCH=$(echo $GITHUB_REF |  rev | cut -d "/" -f 1 | rev)
             echo "::set-output name=branch::$BRANCH"
@@ -96,7 +97,7 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: deployment-demo-registry
 
-        IMAGE_TAG: ${steps.version.BRANCH_NAME}.${{ github.run_number }}
+        IMAGE_TAG: ${{steps.version.outputs.branch}}.${{ github.run_number }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
