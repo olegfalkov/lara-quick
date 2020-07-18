@@ -52,15 +52,8 @@ jobs:
             BRANCH=$(echo $GITHUB_REF |  rev | cut -d "/" -f 1 | rev)
             echo "::set-output name=branch::$BRANCH"
             echo "$BRANCH"
-      id: version
       
-   #- name: get version
-   #   id: version
-   #   uses: nelonoel/branch-name@v1
-    
-    # Use branch name for whatever purpose
     - name: show version
-
       run: echo ${{steps.version.outputs.branch}}.${{ github.run_number }}    
     
     - name: Login to Amazon ECR
@@ -136,11 +129,9 @@ jobs:
         replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
         include: "app-spec-template.yml"
         
-    - name: ls
-      run: ls
         
     - name: Upload file to bucket
-      run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yml
+      run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
 #      uses: zdurham/s3-upload-github-action@master
 #      with:
 #        args: --acl public-read
