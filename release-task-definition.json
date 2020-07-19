@@ -19,12 +19,20 @@
         "command": [ "start-apache" ],
         "environment": [
           {
+            "name": "DB_HOST",
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
+          },
+          {
+            "name": "DB_DATABASE",
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
+          },
+          {
             "name": "DB_PASSWORD",
-            "value": "Test123!"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
           },
           {
             "name": "DB_USERNAME",
-            "value": "admin"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
           }
         ],
         "mountPoints": [],
