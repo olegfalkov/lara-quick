@@ -20,19 +20,19 @@
         "environment": [
           {
             "name": "DB_HOST",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
+            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
           },
           {
             "name": "DB_DATABASE",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
+            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
           },
           {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
+            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
           },
           {
             "name": "DB_USERNAME",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
+            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
           }
         ],
         "mountPoints": [],
