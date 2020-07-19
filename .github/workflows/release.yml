@@ -52,6 +52,9 @@ jobs:
             BRANCH=$(echo $GITHUB_REF |  rev | cut -d "/" -f 1 | rev)
             echo "::set-output name=branch::$BRANCH"
             echo "$BRANCH"
+            BRANCH_ = $(echo $BRANCH | tr . -)
+            echo "::set-output name=branch_::$BRANCH_"
+            echo "$BRANCH"
       
     - name: show version
       run: echo ${{steps.version.outputs.branch}}.${{ github.run_number }}    
@@ -102,7 +105,7 @@ jobs:
       uses: shitiomatic/str-replace@master
       with:
         find: "task-definition-family"
-        replace: "poc-demo-task-${{steps.version.outputs.branch}}.${{ github.run_number }}"
+        replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
         include: "release-task-definition.json"
 
     - name: Show changed task definition
