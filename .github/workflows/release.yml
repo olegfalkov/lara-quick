@@ -105,6 +105,9 @@ jobs:
         replace: "poc-demo-task-${{steps.version.outputs.branch}}.${{ github.run_number }}"
         include: "release-task-definition.json"
 
+    - name: Show changed task definition
+      run: cat release-task-definition.json 
+
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
