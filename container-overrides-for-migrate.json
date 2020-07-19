@@ -1,0 +1,8 @@
+{
+  "containerOverrides": [
+    {
+      "name": "web-app-container",
+      "command": [ "cd /var/www", "php artisan migrate" ]
+    }
+  ] 
+}
