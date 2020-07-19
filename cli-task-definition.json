@@ -2,7 +2,7 @@
     "containerDefinitions": [
       {
         "name": "web-app-container",
-        "image": "885193784904.dkr.ecr.us-east-2.amazonaws.com/deployment-demo-registry:1.1.5",
+        "image": "885193784904.dkr.ecr.us-east-2.amazonaws.com/deployment-demo-registry:1.2.47",
         "cpu": 0,
         "memoryReservation": 256,
         "portMappings": [
@@ -17,11 +17,11 @@
         "secrets": [
           {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:prod/password"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/password"
           },
           {
             "name": "DB_USERNAME",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:prod/username"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/username"
           }
         ],
         "logConfiguration": {
@@ -34,10 +34,9 @@
         }
       }
     ],
-    "family": "task-definition-family",
+    "family": "created-from-cli",
     "executionRoleArn": "arn:aws:iam::885193784904:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
-    "status": "ACTIVE",
     "requiresCompatibilities": [
         "FARGATE"
     ],
