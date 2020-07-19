@@ -17,7 +17,7 @@
         "environment": [
           {
             "name": "APP-ENV",
-            "value": "qa"
+            "value": "prod"
           }
         ],
         "secrets": [
