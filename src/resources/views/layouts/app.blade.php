@@ -32,7 +32,7 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="/">
-                    Task List v.##version##
+                    Task List v.##version## {{ App::environment() }}
                 </a> 
             </div>
 
