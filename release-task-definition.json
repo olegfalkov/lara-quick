@@ -30,7 +30,7 @@
           "logDriver": "awslogs",
           "secretOptions": null,
           "options": {
-            "awslogs-group": "/ecs/task-definition-family",
+            "awslogs-group": "/ecs/poc-demo-task",
             "awslogs-region": "us-east-2",
             "awslogs-stream-prefix": "ecs"
           }
