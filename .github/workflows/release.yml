@@ -64,7 +64,6 @@ jobs:
       uses: shitiomatic/str-replace@master
       with:
         find: "##version##"
-
         replace: "${{steps.version.outputs.branch}}.${{ github.run_number }}"
         include: "index.html|app.blade.php"
       
@@ -97,7 +96,14 @@ jobs:
         # be deployed to ECS.
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"      
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"     
+        
+    - name: Set task definition name
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "task-definition-family"
+        replace: "poc-demo-task-${{steps.version.outputs.branch}}.${{ github.run_number }}"
+        include: "release-task-definition.json"
 
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
@@ -125,7 +131,7 @@ jobs:
     - name: Update task ARN
       uses: shitiomatic/str-replace@master
       with:
-        find: "arn:aws:ecs:us-east-2:885193784904:task-definition/poc-demo-task:1"
+        find: "task-definition-arn"
         replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
         include: "app-spec-template.yml"
         

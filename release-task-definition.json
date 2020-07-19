@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:885193784904:task-definition/poc-demo-task:1",
+ //   "taskDefinitionArn": "arn:aws:ecs:us-east-2:885193784904:task-definition/poc-demo-task:1",
     "containerDefinitions": [
       {
         "name": "web-app-container",
@@ -31,14 +31,14 @@
           "logDriver": "awslogs",
           "secretOptions": null,
           "options": {
-            "awslogs-group": "/ecs/poc-demo-task",
+            "awslogs-group": "/ecs/task-definition-family",
             "awslogs-region": "us-east-2",
             "awslogs-stream-prefix": "ecs"
           }
         }
       }
     ],
-    "family": "poc-demo-task",
+    "family": "task-definition-family",
     "executionRoleArn": "arn:aws:iam::885193784904:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "revision": 1,
