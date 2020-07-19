@@ -31,7 +31,7 @@
             <div class="navbar-header">
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="/">
                     Task List v.##version##
                 </a> 
             </div>
