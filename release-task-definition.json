@@ -17,26 +17,24 @@
         "essential": true,
         "entryPoint": [],
         "command": [ "start-apache" ],
-        "environment": [
+        "secrets": [
           {
             "name": "DB_HOST",
-            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
           },
           {
             "name": "DB_DATABASE",
-            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
           },
           {
             "name": "DB_PASSWORD",
-            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
           },
           {
             "name": "DB_USERNAME",
-            "value": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
           }
         ],
-        "mountPoints": [],
-        "volumesFrom": [],
         "logConfiguration": {
           "logDriver": "awslogs",
           "secretOptions": null,
