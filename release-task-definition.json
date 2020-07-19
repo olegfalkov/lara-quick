@@ -19,20 +19,12 @@
         "command": [ "start-apache" ],
         "secrets": [
           {
-            "name": "DB_HOST",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/host"
-          },
-          {
-            "name": "DB_DATABASE",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/dbname"
-          },
-          {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/password"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/creds-P4Pe3v/password"
           },
           {
             "name": "DB_USERNAME",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/mysql/credentials-huDcsr/username"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/creds-P4Pe3v/username"
           }
         ],
         "logConfiguration": {
