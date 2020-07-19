@@ -1,5 +1,5 @@
 {
-    "taskDefinitionArn": "arn:aws:ecs:us-east-2:885193784904:task-definition/poc-demo-task:1",
+    "taskDefinitionArn": "arn:aws:ecs:us-east-2:885193784904:task-definition/poc-migrate-task:1",
     "containerDefinitions": [
         {
             "name": "web-app-container",
@@ -16,7 +16,7 @@
             ],
             "essential": true,
             "entryPoint": [],
-            "command": [ "start-apache" ],
+            "command": [ "cd /var/www", "php artisan migrate" ],
             "environment": [],
             "mountPoints": [],
             "volumesFrom": [],
