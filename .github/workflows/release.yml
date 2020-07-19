@@ -50,11 +50,11 @@ jobs:
       id: version
       run: |
             BRANCH=$(echo $GITHUB_REF |  rev | cut -d "/" -f 1 | rev)
+            BRANCH1=$(echo $BRANCH | tr . -)
             echo "::set-output name=branch::$BRANCH"
-            echo "$BRANCH"
-            BRANCH_ = $(echo $BRANCH | tr . -)
-            echo "::set-output name=branch_::$BRANCH_"
-            echo "$BRANCH"
+            echo "$BRANCH"            
+            echo "::set-output name=branch_::$BRANCH1"
+            echo "$BRANCH1"
       
     - name: show version
       run: echo ${{steps.version.outputs.branch}}.${{ github.run_number }}    
