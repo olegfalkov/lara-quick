@@ -162,8 +162,8 @@ jobs:
         include: "task-definition-template.json"
 
 
-    - name: Show changed task definition
-      run: task-definition-template.json 
+    - name: Show changed task definition template
+      run: cat task-definition-template.json 
 
     - uses: actions/setup-dotnet@v1
       with:
