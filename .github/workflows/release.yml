@@ -145,6 +145,26 @@ jobs:
     - name: Upload file to bucket
       run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
 
+
+
+    - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{TaskDefinitionFamily}"
+        replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
+        include: "task-definition-template.json"
+
+    - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{ImageName}"
+        replace: "${{ steps.build-image.outputs.image }}"
+        include: "task-definition-template.json"
+
+
+    - name: Show changed task definition
+      run: task-definition-template.json 
+
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '2.1.802' # SDK Version to use; x will use the latest version of the 3.1 channel
