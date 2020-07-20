@@ -72,7 +72,7 @@ jobs:
       
     - name: Copy .env
       working-directory: src
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');" 
+      run: php -r "file_exists('.env') || copy('.env.dev', '.env');" 
       # "
       
     - name: Install Dependencies
@@ -102,49 +102,49 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"     
         
-    - name: Set task definition name
-      uses: shitiomatic/str-replace@master
-      with:
-        find: "task-definition-family"
-        replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
-        include: "release-task-definition.json"
+#    - name: Set task definition name
+#      uses: shitiomatic/str-replace@master
+#      with:
+#        find: "task-definition-family"
+#        replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
+#        include: "release-task-definition.json"
 
-    - name: Show changed task definition
-      run: cat release-task-definition.json 
+#    - name: Show changed task definition
+#      run: cat release-task-definition.json 
 
-    - name: Fill in the new image ID in the Amazon ECS task definition
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: release-task-definition.json
-        container-name: web-app-container
-        image: ${{ steps.build-image.outputs.image }}
+#    - name: Fill in the new image ID in the Amazon ECS task definition
+#      id: task-def
+#      uses: aws-actions/amazon-ecs-render-task-definition@v1
+#      with:
+#        task-definition: release-task-definition.json
+#        container-name: web-app-container
+#        image: ${{ steps.build-image.outputs.image }}
         
-    - name: Deploy Amazon ECS task definition
-      id: task-deploy
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-#        service: blue-green
-#        cluster: poc-deployment-demo
-        wait-for-service-stability: false
-#        codedeploy-appspec: app-spec-template.yml
-        # codedeploy-application: AppECS-poc-deployment-demo-blue-green
-        # codedeploy-deployment-group:  DgpECS-poc-deployment-demo-blue-green
+#    - name: Deploy Amazon ECS task definition
+#      id: task-deploy
+#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#      with:
+#        task-definition: ${{ steps.task-def.outputs.task-definition }}
+##        service: blue-green
+##        cluster: poc-deployment-demo
+#        wait-for-service-stability: false
+##        codedeploy-appspec: app-spec-template.yml
+#        # codedeploy-application: AppECS-poc-deployment-demo-blue-green
+#        # codedeploy-deployment-group:  DgpECS-poc-deployment-demo-blue-green
           
 #    - name: Show ARN
 #      run: echo ${{ steps.task-deploy.outputs.task-definition-arn }}
         
-    - name: Update task ARN
-      uses: shitiomatic/str-replace@master
-      with:
-        find: "task-definition-arn"
-        replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
-        include: "app-spec-template.yml"
+#    - name: Update task ARN
+#      uses: shitiomatic/str-replace@master
+#      with:
+#        find: "task-definition-arn"
+#        replace: "${{ steps.task-deploy.outputs.task-definition-arn }}"
+#        include: "app-spec-template.yml"
         
         
-    - name: Upload AppSpec file to S3 bucket
-      run: aws s3 cp app-spec-template.yml s3://lara-quick-app-specs/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
+#    - name: Upload AppSpec file to S3 bucket
+#      run: aws s3 cp app-spec-template.yml s3://lara-quick-app-specs/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
 
     - name: Set task definition name in Template
       uses: shitiomatic/str-replace@master
@@ -152,6 +152,13 @@ jobs:
         find: "#{TaskDefinitionFamily}"
         replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
         include: "task-definition-template.json"
+
+    - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{TaskDefinitionFamily}"
+        replace: "lara-quick_v${{steps.version.outputs.branch_}}-${{ github.run_number }}"
+        include: "app-spec-template.yaml"
 
     - name: Set task definition name in Template
       uses: shitiomatic/str-replace@master
@@ -179,6 +186,7 @@ jobs:
       run: |
         mkdir -p ./packages/lara-quick/
         cp ./task-definition-template.json ./packages/lara-quick/
+        cp ./app-spec-template.yaml ./packages/lara-quick/
         octo pack --id="lara-quick" --format="Zip" --version="${{steps.version.outputs.branch}}.${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
 
     - name: Push package to Octopus

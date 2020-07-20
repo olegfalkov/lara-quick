@@ -13,7 +13,7 @@
           }
         ],
         "essential": true,
-        "command": [ "start-apache" ],
+        "command": [ "cp --force /var/www/.env.#{EnvironmentName} /var/www/.env", "start-apache" ],
         "environment": [
           {
             "name": "APP-ENV",
