@@ -2,7 +2,7 @@
     "containerDefinitions": [
       {
         "name": "web-app-container",
-        "image": "885193784904.dkr.ecr.us-east-2.amazonaws.com/deployment-demo-registry:1.2.47",
+        "image": "#{ImageName}",
         "cpu": 0,
         "memoryReservation": 256,
         "portMappings": [
@@ -13,15 +13,21 @@
           }
         ],
         "essential": true,
-        "command": [ "start-apache" ],
+        "command": [ "cp --force /var/www/.env.#{EnvironmentName} /var/www/.env", "start-apache" ],
+        "environment": [
+          {
+            "name": "APP-ENV",
+            "value": "#{EnvironmentName}"
+          }
+        ],
         "secrets": [
           {
             "name": "DB_PASSWORD",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/password"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:#{EnvironmentName}/password"
           },
           {
             "name": "DB_USERNAME",
-            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:release/username"
+            "valueFrom": "arn:aws:secretsmanager:us-east-2:885193784904:secret:#{EnvironmentName}/username"
           }
         ],
         "logConfiguration": {
@@ -34,7 +40,7 @@
         }
       }
     ],
-    "family": "created-from-cli",
+    "family": "#{EnvironmentName}_#{TaskDefinitionFamily}",
     "executionRoleArn": "arn:aws:iam::885193784904:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "requiresCompatibilities": [
