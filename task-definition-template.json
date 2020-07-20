@@ -13,7 +13,7 @@
           }
         ],
         "essential": true,
-        "command": [ "ls -a /var/www", "cp -vRf /var/www/env.#{EnvironmentName} /var/www/.env", "start-apache" ],
+        "command": [ "ls -a", "cp -vRf /var/www/env.#{EnvironmentName} /var/www/.env", "start-apache" ],
         "environment": [
           {
             "name": "APP-ENV",
