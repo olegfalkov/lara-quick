@@ -144,6 +144,15 @@ jobs:
         
     - name: Upload file to bucket
       run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
+
+    - name: Create release Octopus
+      uses: burtonr/octopus-release-action@master
+      with:
+        octopus_url: 'https://compellotech.octopus.app/'
+        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+        project_name: 'lara-qick'
+        release_version: ${{steps.version.outputs.branch}}.${{ github.run_number }}
+     
 #      uses: zdurham/s3-upload-github-action@master
 #      with:
 #        args: --acl public-read
