@@ -72,7 +72,8 @@ jobs:
       
     - name: Copy .env
       working-directory: src
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');" 
+      # "
       
     - name: Install Dependencies
       working-directory: src
@@ -131,8 +132,8 @@ jobs:
         # codedeploy-application: AppECS-poc-deployment-demo-blue-green
         # codedeploy-deployment-group:  DgpECS-poc-deployment-demo-blue-green
           
-    - name: Show ARN
-      run: echo ${{ steps.task-deploy.outputs.task-definition-arn }}
+#    - name: Show ARN
+#      run: echo ${{ steps.task-deploy.outputs.task-definition-arn }}
         
     - name: Update task ARN
       uses: shitiomatic/str-replace@master
@@ -142,10 +143,8 @@ jobs:
         include: "app-spec-template.yml"
         
         
-    - name: Upload file to bucket
+    - name: Upload AppSpec file to S3 bucket
       run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
-
-
 
     - name: Set task definition name in Template
       uses: shitiomatic/str-replace@master
