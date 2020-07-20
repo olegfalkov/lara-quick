@@ -45,13 +45,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
 
-    - name: get version
-      id: version
-      uses: notiz-dev/github-action-json-property@release
-      with: 
-        path: '.vars'
-        prop_path: 'version'
-
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
@@ -60,12 +53,13 @@ jobs:
       uses: shitiomatic/str-replace@master
       with:
         find: "##version##"
-        replace: "Build-${{ github.run_number }}-Dev"
+        replace: "Build-${{ github.run_number }}"
         include: "index.html|app.blade.php"
       
     - name: Copy .env
       working-directory: src
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: php -r "file_exists('.env') || copy('.env.dev', '.env');"
+      # "
       
     - name: Install Dependencies
       working-directory: src
@@ -84,7 +78,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: deployment-demo-registry
-        IMAGE_TAG: build-${{ github.run_number }}-dev
+        IMAGE_TAG: build-${{ github.run_number }}
       run: |
         # Build a docker container and
         # push it to ECR so that it can
@@ -93,19 +87,53 @@ jobs:
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-#    - name: Fill in the new image ID in the Amazon ECS task definition
-#      id: task-def
-#      uses: aws-actions/amazon-ecs-render-task-definition@v1
-#      with:
-#        task-definition: task-definition.json
-#        container-name: laravel-container
-#        image: ${{ steps.build-image.outputs.image }}
-#
-#    - name: Deploy Amazon ECS task definition
-#      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#      with:
-#        task-definition: ${{ steps.task-def.outputs.task-definition }}
-#        service: laravel-container-service
-#        cluster: laravel-cluster
-#        wait-for-service-stability: true
-#
+   - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{TaskDefinitionFamily}"
+        replace: "lara-quick_build-${{ github.run_number }}"
+        include: "task-definition-template.json"
+
+    - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{TaskDefinitionFamily}"
+        replace: "lara-quick_build-${{ github.run_number }}"
+        include: "app-spec-template.yaml"
+
+    - name: Set task definition name in Template
+      uses: shitiomatic/str-replace@master
+      with:
+        find: "#{ImageName}"
+        replace: "${{ steps.build-image.outputs.image }}"
+        include: "task-definition-template.json"
+
+
+    - name: Show changed task definition template
+      run: cat task-definition-template.json 
+
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.1.802' # SDK Version to use; x will use the latest version of the 3.1 channel
+
+    - name: Install Octopus CLI
+      run: |
+        sudo apt update && sudo apt install --no-install-recommends gnupg curl ca-certificates apt-transport-https && \
+        curl -sSfL https://apt.octopus.com/public.key | sudo apt-key add - && \
+        sudo sh -c "echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list" && \
+        sudo apt update && sudo apt install octopuscli
+        
+    - name: Package Source Code
+      run: |
+        mkdir -p ./packages/lara-quick/
+        cp ./task-definition-template.json ./packages/lara-quick/
+        cp ./app-spec-template.yaml ./packages/lara-quick/
+        octo pack --id="lara-quick" --format="Zip" --version="build-${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
+
+    - name: Push package to Octopus
+      run: octo push --package="./packages/lara-quick.build-${{ github.run_number }}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
+     # "
+
+    - name: Create Octopus Release
+      run:  octo create-release --project lara-qick --version build-${{ github.run_number }} --packageVersion build-${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
+
