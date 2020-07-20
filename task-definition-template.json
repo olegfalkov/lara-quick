@@ -13,7 +13,7 @@
           }
         ],
         "essential": true,
-        "command": [ "cp -fRv /var/www/.env.#{EnvironmentName} /var/www/.env && start-apache" ],
+        "command": [ "entrypoint.sh" ],
         "environment": [
           {
             "name": "APP-ENV",
