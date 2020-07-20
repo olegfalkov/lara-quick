@@ -57,9 +57,8 @@ jobs:
             DT=$(date +%Y.%m.%d).$RUN_NUMBER-Pre
             DT2=$(date +%Y-%m-%d)-$RUN_NUMBER-Pre
             echo "::set-output name=value::$DT"
-            echo "::set-output name=dashed::$DT"
+            echo "::set-output name=dashed::$DT2"
             echo "$DT"            
-
 
     - name: Set version
       uses: shitiomatic/str-replace@master
