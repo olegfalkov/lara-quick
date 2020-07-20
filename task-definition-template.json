@@ -40,7 +40,7 @@
         }
       }
     ],
-    "family": "#{EnvironmentName}-lara-quick_v1-2-57",
+    "family": "#{EnvironmentName}_#{TaskDefinitionFamily}",
     "executionRoleArn": "arn:aws:iam::885193784904:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",
     "status": "ACTIVE",
