@@ -147,15 +147,22 @@ jobs:
 
     - uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.0.x' # SDK Version to use; x will use the latest version of the 3.1 channel
+        dotnet-version: '2.1.802' # SDK Version to use; x will use the latest version of the 3.1 channel
 
-    - name: Create release Octopus
-      uses: burtonr/octopus-release-action@master
-      with:
-        octopus_url: 'https://compellotech.octopus.app/'
-        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-        project_name: 'lara-qick'
-        release_version: ${{steps.version.outputs.branch}}.${{ github.run_number }}
+    - name: Install Octopus CLI
+      run: |
+        sudo apt update && sudo apt install --no-install-recommends gnupg curl ca-certificates apt-transport-https && \
+        curl -sSfL https://apt.octopus.com/public.key | sudo apt-key add - && \
+        sudo sh -c "echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list" && \
+        sudo apt update && sudo apt install octopuscli
+
+#    - name: Create release Octopus
+#      uses: burtonr/octopus-release-action@master
+#      with:
+#        octopus_url: 'https://compellotech.octopus.app/'
+#        api_key: ${{ secrets.OCTOPUS_API_KEY }}
+#        project_name: 'lara-qick'
+#        release_version: ${{steps.version.outputs.branch}}.${{ github.run_number }}
      
 #      uses: zdurham/s3-upload-github-action@master
 #      with:
