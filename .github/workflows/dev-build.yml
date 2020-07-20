@@ -53,7 +53,7 @@ jobs:
       uses: shitiomatic/str-replace@master
       with:
         find: "##version##"
-        replace: "Build-${{ github.run_number }}"
+        replace: "Build-${{ github.run_number }}-dev"
         include: "index.html|app.blade.php"
       
     - name: Copy .env
@@ -78,7 +78,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: lara-quick
-        IMAGE_TAG: build-${{ github.run_number }}
+        IMAGE_TAG: build-${{ github.run_number }}-dev
       run: |
         # Build a docker container and
         # push it to ECR so that it can
@@ -128,12 +128,12 @@ jobs:
         mkdir -p ./packages/lara-quick/
         cp ./task-definition-template.json ./packages/lara-quick/
         cp ./app-spec-template.yaml ./packages/lara-quick/
-        octo pack --id="lara-quick" --format="Zip" --version="build-${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
+        octo pack --id="lara-quick" --format="Zip" --version="2020.7.20.${{ github.run_number }}-Pre" --basePath="./packages/lara-quick" --outFolder="./packages"
 
     - name: Push package to Octopus
-      run: octo push --package="./packages/lara-quick.build-${{ github.run_number }}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
+      run: octo push --package="./packages/lara-quick.2020.7.20.${{ github.run_number }}-Pre.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
      # "
 
     - name: Create Octopus Release
-      run:  octo create-release --project lara-qick --version build-${{ github.run_number }} --packageVersion build-${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
+      run:  octo create-release --project lara-qick --version 2020.7.20.${{ github.run_number }}-Pre --packageVersion 2020.7.20.${{ github.run_number }}-Pre --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
 
