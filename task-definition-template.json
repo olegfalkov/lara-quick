@@ -2,7 +2,7 @@
     "containerDefinitions": [
       {
         "name": "web-app-container",
-        "image": "885193784904.dkr.ecr.us-east-2.amazonaws.com/deployment-demo-registry:#{ReleaseVerion}",
+        "image": "885193784904.dkr.ecr.us-east-2.amazonaws.com/deployment-demo-registry:#{Octopus.Release.Number}",
         "cpu": 0,
         "memoryReservation": 256,
         "portMappings": [
