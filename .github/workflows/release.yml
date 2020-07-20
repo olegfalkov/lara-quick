@@ -156,6 +156,15 @@ jobs:
         sudo sh -c "echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list" && \
         sudo apt update && sudo apt install octopuscli
         
+    - name: Package Source Code
+      run: |
+        mkdir -p ./packages/lara-quick/src/
+        cp -avr ./src ./packages/lara-quick/src/
+        octo pack --id="lara-quick" --format="Zip" --version="${{steps.version.outputs.branch}}.${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
+
+    - name: Push package to Octopus
+      run: octo push --package="./packages/lara-quick.${{steps.version.outputs.branch}}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
+        
     - name: Create Octopus Release
       run:  octo create-release --project lara-qick --version ${{steps.version.outputs.branch}}.${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
 
