@@ -82,7 +82,11 @@ jobs:
       
     - name: Directory Permissions
       working-directory: src
-      run: chmod -R 777 storage bootstrap/cache      
+      run: chmod -R 777 storage bootstrap/cache    
+      
+    - name: Show .env
+      working-directory: src
+      run: ls
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
