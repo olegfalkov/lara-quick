@@ -159,7 +159,7 @@ jobs:
     - name: Package Source Code
       run: |
         mkdir -p ./packages/lara-quick/
-        cp -avr ./src ./packages/lara-quick/
+        cp ./release-task-definition.json ./packages/lara-quick/
         octo pack --id="lara-quick" --format="Zip" --version="${{steps.version.outputs.branch}}.${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
 
     - name: Push package to Octopus
