@@ -16,10 +16,6 @@
         "command": [ "entrypoint.sh" ],
         "environment": [
           {
-            "name": "APP-ENV",
-            "value": "#{EnvironmentName}"
-          },
-          {
             "name": "APP_ENV",
             "value": "#{EnvironmentName}"
           }
