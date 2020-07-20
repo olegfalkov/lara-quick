@@ -146,5 +146,5 @@ jobs:
      # "
 
     - name: Create Octopus Release
-      run:  octo create-release --project lara-qick --version ${{ steps.version.outputs.value }} --packageVersion ${{ steps.version.outputs.value }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
+      run:  octo create-release --channel CICD --project lara-qick --version ${{ steps.version.outputs.value }} --packageVersion ${{ steps.version.outputs.value }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
 
