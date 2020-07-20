@@ -17,7 +17,6 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN a2enmod rewrite
 
 COPY src/ /var/www
-RUN ls /var/www
 RUN chown -R www-data:www-data /var/www
 
 EXPOSE 80

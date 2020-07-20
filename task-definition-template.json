@@ -18,6 +18,10 @@
           {
             "name": "APP-ENV",
             "value": "#{EnvironmentName}"
+          },
+          {
+            "name": "APP_ENV",
+            "value": "#{EnvironmentName}"
           }
         ],
         "secrets": [
