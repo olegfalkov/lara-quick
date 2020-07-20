@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
 
-ls -a /var/www
-cp -fRv /var/www/env.dev /var/www/.env
-ls -a /var/www
+cp -fRv /var/www/.env.#{EnvironmentName} /var/www/.env
 apache2-foreground

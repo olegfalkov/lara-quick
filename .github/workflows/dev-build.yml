@@ -67,9 +67,9 @@ jobs:
         replace: "${{ steps.version.outputs.value }}"
         include: "index.html|app.blade.php"
       
-    - name: Copy .env
-      working-directory: src
-      run: php -r "file_exists('.env') || copy('.env.dev', '.env');"
+ #   - name: Copy .env
+ #     working-directory: src
+ #     run: php -r "file_exists('.env') || copy('.env.dev', '.env');"
       # "
       
     - name: Install Dependencies
@@ -83,10 +83,6 @@ jobs:
     - name: Directory Permissions
       working-directory: src
       run: chmod -R 777 storage bootstrap/cache    
-      
-    - name: Show .env
-      working-directory: src
-      run: ls
 
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
