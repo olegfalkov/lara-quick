@@ -155,6 +155,9 @@ jobs:
         curl -sSfL https://apt.octopus.com/public.key | sudo apt-key add - && \
         sudo sh -c "echo deb https://apt.octopus.com/ stable main > /etc/apt/sources.list.d/octopus.com.list" && \
         sudo apt update && sudo apt install octopuscli
+        
+    - name: Create Octopus Release
+      run:  octo create-release --project lara-qick --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
 
 #    - name: Create release Octopus
 #      uses: burtonr/octopus-release-action@master
