@@ -3,7 +3,7 @@ Resources:
     - TargetService: 
         Type: AWS::ECS::Service
         Properties:
-            TaskDefinition: "#{EnvironmentName}_#{TaskDefinitionFamily}"
+            TaskDefinition: "arn:aws:ecs:us-east-2:885193784904:task-definition/#{EnvironmentName}_#{TaskDefinitionFamily}"
             LoadBalancerInfo:
                 ContainerName: "web-app-container"
                 ContainerPort: 80
