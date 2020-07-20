@@ -163,7 +163,7 @@ jobs:
         octo pack --id="lara-quick" --format="Zip" --version="${{steps.version.outputs.branch}}.${{ github.run_number }}" --basePath="./packages/lara-quick" --outFolder="./packages"
 
     - name: Push package to Octopus
-      run: octo push --package="./packages/lara-quick.${{steps.version.outputs.branch}}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
+      run: octo push --package="./packages/lara-quick.${{steps.version.outputs.branch}}.${{ github.run_number }}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
         
     - name: Create Octopus Release
       run:  octo create-release --project lara-qick --version ${{steps.version.outputs.branch}}.${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
