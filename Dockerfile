@@ -7,8 +7,12 @@ RUN apt update
 RUN docker-php-ext-install pdo_mysql
 
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
+
 COPY start-apache /usr/local/bin
 RUN chmod +x /usr/local/bin/start-apache
+
+COPY entrypoint.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 RUN a2enmod rewrite
 
