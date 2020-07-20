@@ -91,7 +91,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: deployment-demo-registry
+        ECR_REPOSITORY: lara-quick
 
         IMAGE_TAG: ${{steps.version.outputs.branch}}.${{ github.run_number }}
       run: |
@@ -144,7 +144,7 @@ jobs:
         
         
     - name: Upload AppSpec file to S3 bucket
-      run: aws s3 cp app-spec-template.yml s3://poc-demo-deploy/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
+      run: aws s3 cp app-spec-template.yml s3://lara-quick-app-specs/appspec-poc-${{steps.version.outputs.branch}}.${{ github.run_number }}.yaml
 
     - name: Set task definition name in Template
       uses: shitiomatic/str-replace@master
