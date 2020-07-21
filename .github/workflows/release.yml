@@ -193,14 +193,14 @@ jobs:
       run: octo push --package="./packages/lara-quick.${{steps.version.outputs.branch}}.${{ github.run_number }}.zip" --server="https://compellotech.octopus.app/" --apiKey="${{ secrets.OCTOPUS_API_KEY }}"
         
     - name: Create Octopus Release
-      run:  octo create-release --channel Release --project lara-qick --version ${{steps.version.outputs.branch}}.${{ github.run_number }} --packageVersion ${{steps.version.outputs.branch}}.${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
+      run:  octo create-release --channel Release --project lara-quick --version ${{steps.version.outputs.branch}}.${{ github.run_number }} --packageVersion ${{steps.version.outputs.branch}}.${{ github.run_number }} --server https://compellotech.octopus.app/ --apiKey ${{ secrets.OCTOPUS_API_KEY }}
 
 #    - name: Create release Octopus
 #      uses: burtonr/octopus-release-action@master
 #      with:
 #        octopus_url: 'https://compellotech.octopus.app/'
 #        api_key: ${{ secrets.OCTOPUS_API_KEY }}
-#        project_name: 'lara-qick'
+#        project_name: 'lara-quick'
 #        release_version: ${{steps.version.outputs.branch}}.${{ github.run_number }}
      
 #      uses: zdurham/s3-upload-github-action@master
