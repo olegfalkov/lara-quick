@@ -28,7 +28,7 @@ on:
     branches:
       - release/*
     paths:
-      - '*/workflow/*'
+      - '*/workflows/*'
 
 name: Release build
 
